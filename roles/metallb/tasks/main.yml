@@ -1,0 +1,22 @@
+---
+- name: Set EC2 IP
+  when: deploy_on_aws
+  import_tasks: ec2-ip.yml
+
+- name: Set Kind Cluster IP
+  when: deploy_on_kind
+  import_tasks: kind-ip.yml
+
+- name: Set Host IP
+  when: ( not deploy_on_aws ) and ( not deploy_on_kind )
+  import_tasks: host-ip.yml
+
+- name: Install Metallb
+  import_tasks: metallb.yml
+
+- name: Delete metallb-speaker DaemonSet
+  when: deploy_on_aws
+  import_tasks: metallb-speaker.yml
+
+# - name: Create IP Address Pool
+#   import_tasks: ip-pool.yml
