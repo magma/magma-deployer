@@ -29,11 +29,6 @@
     name: haproxytech
     url: https://haproxytech.github.io/helm-charts
 
-- name: Add Ingress NGINX Helm repository
-  kubernetes.core.helm_repository:
-    name: ingress-nginx
-    url: https://kubernetes.github.io/ingress-nginx
-
 - name: Remove old Magma Helm repository
   kubernetes.core.helm_repository:
     name: orc8r
