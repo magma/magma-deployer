@@ -19,6 +19,7 @@ DEFAULT_NMS_ORGANIZATION_NAME="magma-test"
 DEFAULT_NMS_EMAIL_ID_AND_PASSWORD="admin"
 ORC8R_IP=$(hostname -I | awk '{print $1}')
 GITHUB_USERNAME="magma"
+MAGMA_DOCKER_REGISTRY="magmacore"
 MAGMA_ORC8R_REPO="magma-deployer"
 MAGMA_USER="magma"
 HOSTS_FILE="hosts.yml"
@@ -72,7 +73,8 @@ cd ~/${MAGMA_ORC8R_REPO}
 
 # Download images from DockerHub
 if [ "${USE_DOCKER_HUB}" == "yes" ]; then
-  yq e '.all.vars.magma_docker_registry = "magmacore"' -i ${HOSTS_FILE}
+  export MAGMA_DOCKER_REGISTRY=${MAGMA_DOCKER_REGISTRY}
+  yq e '.all.vars.magma_docker_registry = env(MAGMA_DOCKER_REGISTRY)' -i ${HOSTS_FILE}
 fi
 
 # export variables for yq
