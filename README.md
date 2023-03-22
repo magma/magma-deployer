@@ -12,11 +12,11 @@ sudo su - magma
 
 Once all pods are ready, setup NMS login:
 ```bash
-cd ~/magma-galaxy
+cd ~/magma-deployer
 ansible-playbook config-orc8r.yml
 ```
 
 You can get your `rootCA.pem` file from the following location:
 ```bash
-cat ~/magma-galaxy/secrets/rootCA.pem
+cat ~/magma-deployer/secrets/rootCA.pem
 ```
