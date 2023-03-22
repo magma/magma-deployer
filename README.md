@@ -2,7 +2,7 @@
 
 Quick Install:
 ```bash
-sudo bash -c "$(curl -s https://raw.githubusercontent.com/magma/magma-deployer/main/deploy-orc8r.sh)"
+sudo bash -c "$(curl -sL https://github.com/magma/magma-deployer/raw/main/deploy-orc8r.sh)"
 ```
 
 Switch to `magma` user after deployment has finsished:
