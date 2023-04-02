@@ -37,18 +37,6 @@ NMS_EMAIL_ID="${NMS_EMAIL_ID:-${DEFAULT_NMS_EMAIL_ID_AND_PASSWORD}}"
 read -p "Set your password for NMS? [${DEFAULT_NMS_EMAIL_ID_AND_PASSWORD}]: " NMS_PASSWORD
 NMS_PASSWORD="${NMS_PASSWORD:-${DEFAULT_NMS_EMAIL_ID_AND_PASSWORD}}"
 
-read -p "Do you wish to download docker images from DockerHub? [y/N]: " DOCKER_HUB
-DOCKER_HUB="${DOCKER_HUB:-N}"
-
-case ${DOCKER_HUB} in
-  [yY]*)
-    USE_DOCKER_HUB="yes"
-    ;;
-  [nN]*)
-    USE_DOCKER_HUB="no"
-    ;;
-esac
-
 # Add repos for installing yq and ansible
 add-apt-repository --yes ppa:rmescandon/yq
 add-apt-repository --yes ppa:ansible/ansible
@@ -70,12 +58,6 @@ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
 # Clone Magma Deployer repo
 git clone https://github.com/${GITHUB_USERNAME}/${MAGMA_ORC8R_REPO} --depth 1
 cd ~/${MAGMA_ORC8R_REPO}
-
-# Download images from DockerHub
-if [ "${USE_DOCKER_HUB}" == "yes" ]; then
-  export MAGMA_DOCKER_REGISTRY=${MAGMA_DOCKER_REGISTRY}
-  yq e '.all.vars.magma_docker_registry = env(MAGMA_DOCKER_REGISTRY)' -i ${HOSTS_FILE}
-fi
 
 # export variables for yq
 export ORC8R_IP=${ORC8R_IP}
