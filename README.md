@@ -1,5 +1,7 @@
 # magma-deployer
 
+Docs: https://magma.github.io/magma/docs/next/orc8r/deploy_using_ansible
+
 Quick Install:
 ```bash
 sudo bash -c "$(curl -sL https://github.com/magma/magma-deployer/raw/main/deploy-orc8r.sh)"
