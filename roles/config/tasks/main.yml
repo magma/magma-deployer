@@ -30,8 +30,11 @@
   set_fact:
     magmalte_pod_name: "{{ magmalte_pod.resources[0].metadata.name }}"
 
-- name: Set username and password for {{ nms_org }} organization
+- name: Set username and password for {{ nms_org }} and host organization
   kubernetes.core.k8s_exec:
     namespace: "{{ magma_namespace }}"
     pod: "{{ magmalte_pod_name }}"
-    command: yarn setAdminPassword {{ nms_org }} {{ nms_id }} {{ nms_pass }}
+    command: yarn setAdminPassword {{ item }} {{ nms_id }} {{ nms_pass }}
+  with_items:
+    - "{{ nms_org }}"
+    - "host"
