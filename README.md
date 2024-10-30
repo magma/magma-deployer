@@ -1,4 +1,5 @@
 # magma-deployer
+Quick deployer of the Magma Orchestrator based mostly on ansible.
 
 Docs: https://magma.github.io/magma/docs/next/orc8r/deploy_using_ansible
 
