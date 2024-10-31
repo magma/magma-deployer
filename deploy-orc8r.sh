@@ -17,6 +17,7 @@ fi
 DEFAULT_ORC8R_DOMAIN="magma.local"
 DEFAULT_NMS_ORGANIZATION_NAME="magma-test"
 DEFAULT_NMS_EMAIL_ID_AND_PASSWORD="admin"
+DEFAULT_DEPLOYER_PATH="${HOME}/magma-deployer"
 ORC8R_IP=$(hostname -I | awk '{print $1}')
 GITHUB_USERNAME="magma"
 MAGMA_DOCKER_REGISTRY="magmacore"
@@ -37,26 +38,38 @@ NMS_EMAIL_ID="${NMS_EMAIL_ID:-${DEFAULT_NMS_EMAIL_ID_AND_PASSWORD}}"
 read -p "Set your password for NMS? [${DEFAULT_NMS_EMAIL_ID_AND_PASSWORD}]: " NMS_PASSWORD
 NMS_PASSWORD="${NMS_PASSWORD:-${DEFAULT_NMS_EMAIL_ID_AND_PASSWORD}}"
 
+read -p "If you've already cloned magma-deployer, enter the path here: [${DEFAULT_DEPLOYER_PATH}]: " DEPLOYER_PATH
+DEPLOYER_PATH="${DEPLOYER_PATH:-${DEFAULT_DEPLOYER_PATH}}"
+
+test -d ${DEPLOYER_PATH} && cp -pvr ${DEPLOYER_PATH} /tmp/magma-deployer/
+
 # Add repos for installing yq and ansible
-add-apt-repository --yes ppa:rmescandon/yq
-add-apt-repository --yes ppa:ansible/ansible
+ls /etc/apt/sources.list.d|grep yq || add-apt-repository --yes ppa:rmescandon/yq
+ls /etc/apt/sources.list.d|grep ansible || add-apt-repository --yes ppa:ansible/ansible
 
 # Install yq and ansible
-apt install yq ansible -y
+which yq || apt install yq -y
+which ansible || apt install ansible -y
 
 # Create magma user and give sudo permissions
-useradd -m ${MAGMA_USER} -s /bin/bash -G sudo
-echo "${MAGMA_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+id ${MAGMA_USER} || useradd -m ${MAGMA_USER} -s /bin/bash -G sudo
+grep ${MAGMA_USER} /etc/sudoers || echo "${MAGMA_USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # switch to magma user
 su - ${MAGMA_USER} -c bash <<_
 
 # Genereta SSH key for magma user
-ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''
-cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys 
+test -f ~/.ssh/id_rsa.pub || ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''
+test -f ~/.ssh/authorized_keys || cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys 
 
-# Clone Magma Deployer repo
-git clone https://github.com/${GITHUB_USERNAME}/${MAGMA_ORC8R_REPO} --depth 1
+if test -d /tmp/magma-deployer
+then
+	cp -pvr /tmp/magma-deployer ~/
+else
+	# Clone Magma Deployer repo
+	echo git clone https://github.com/${GITHUB_USERNAME}/${MAGMA_ORC8R_REPO} --depth 1
+fi
+
 cd ~/${MAGMA_ORC8R_REPO}
 
 # export variables for yq
@@ -78,3 +91,5 @@ yq e '.all.vars.nms_pass = env(NMS_PASSWORD)' -i ${HOSTS_FILE}
 # Deploy Magma Orchestrator
 ansible-playbook deploy-orc8r.yml
 _
+
+rm -rf /tmp/magma-deployer

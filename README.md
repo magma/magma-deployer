@@ -8,6 +8,16 @@ Quick Install:
 sudo bash -c "$(curl -sL https://github.com/magma/magma-deployer/raw/main/deploy-orc8r.sh)"
 ```
 
+CMU Controlled Install:
+```bash
+git clone https://github.com/jblakley/magma-deployer
+cd magma-deployer
+git checkout cmu
+bash ./deploy-orc8r.sh
+```
+
+
+
 Switch to `magma` user after deployment has finsished:
 ```bash
 sudo su - magma
