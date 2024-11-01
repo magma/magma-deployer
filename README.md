@@ -48,3 +48,15 @@ You can get your `rootCA.pem` file from the following location:
 ```bash
 cat ~/magma-deployer/secrets/rootCA.pem
 ```
+
+*For a handy, simple kubernetes management tool, try [k9s](https://github.com/derailed/k9s)*
+
+```bash
+K9SVER=v0.32.5
+ARCH=amd64
+wget https://github.com/derailed/k9s/releases/download/${K9SVER}/k9s_Linux_${ARCH}.tar.gz
+tar xvzf k9s_Linux_${ARCH}.tar.gz
+sudo cp k9s /usr/local/bin
+k9s
+```
+```
