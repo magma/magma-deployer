@@ -1,0 +1,102 @@
+---
+- name: Unhold current docker.io
+  become: yes
+  ansible.builtin.dpkg_selections:
+    name: docker.io
+    selection: install
+    
+- name: Remove any existing docker.io and containerd
+  become: yes
+  apt:
+    name: 
+    - docker.io
+    - containerd
+    state: absent
+    
+- name: Add Docker GPG apt Key
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  become: yes
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+    
+- name: Install python docker packages
+  become: yes
+  pip:
+    name:
+      - "docker==6.1.3"
+      - "docker-compose"
+
+
+
+- name: Update apt and install docker.io (version {{ docker_image_version }}) and containerd
+  become: yes
+  apt:
+    name: 
+    - docker.io='{{ docker_image_version }}'
+    - containerd
+    update_cache: true
+    
+- name: Hold docker.io at '{{ docker_image_version }}'
+  become: yes
+  ansible.builtin.dpkg_selections:
+    name: docker.io
+    selection: hold
+
+# - name: Install Docker Module for Python
+  # pip:
+  #  name: docker
+  # shell:
+  #  curl https://releases.rancher.com/install-docker/{{ docker_version }}.sh | sh
+
+- name: Add user to docker group
+  become: yes
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+    
+- name: Install docker daemon.json
+  become: yes
+  copy:
+    src: "{{ files_local }}/daemon.json.template"
+    dest: "/etc/docker/daemon.json"
+
+- name: Do daemon reload
+  become: yes
+  command: "systemctl daemon-reload" 
+
+- name: Restart docker
+  become: yes
+  command: "systemctl restart docker"
+
+#- name: Pull alpine docker image	
+#  become: yes
+#  docker_image:
+#    name: alpine
+#    source: pull
+    
+- name: Remove existing docker-compose versions
+  become: yes
+  file:
+    state: absent
+    path: 
+      - /usr/bin/docker-compose	
+      - /usr/local/bin/docker-compose
+    
+- name: Install docker-compose version {{ docker_compose_version }}
+  become: yes
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ arch }}"
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+
+
+
+  
+

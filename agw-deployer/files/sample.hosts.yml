@@ -1,0 +1,43 @@
+---
+all:
+  # Update your VM or bare-metal IP address
+  hosts: 192.168.122.121
+  # hosts: 127.0.0.1
+  vars:
+    ansible_user: "jblake1"
+    arch: x86_64
+    domainName: magma.local
+    magma_namespace: magma
+    magma_directory: "magma"
+    magma_version: 1.8.0
+    cloudlet_ip: 192.168.122.121
+    orc8r_ip: 192.168.8.153
+    s1_ip: 192.168.9.10
+    nodeb_ip: 192.168.9.8
+    eth0_mac: 52:54:00:6f:d1:b4
+    eth1_mac: 52:54:00:40:e1:e8
+    nameserver_ip: "8.8.8.8,128.2.212.53"
+    ipgateway_ip: 192.168.122.1
+    # directory path setup
+    recipe_home: /home/jblake1/git/CMUProjects/JITCloudlet/recipe
+    secrets_local: "/home/jblake1/secrets/orc8r.jit-c01-off.secrets"
+    helm_local: "/home/jblake1/git/CMUProjects/JITCloudlet/recipe/helm/charts"
+    files_local: "/home/jblake1/git/CMUProjects/JITCloudlet/recipe/files" 	
+    tmp_local: "/home/jblake1/git/CMUProjects/JITCloudlet/recipe/tmp"
+    bin_local: "/home/jblake1/git/CMUProjects/JITCloudlet/recipe/bin"
+    logs_local: "/home/jblake1/git/CMUProjects/JITCloudlet/recipe/logs"
+   
+    # ssh key for all hosts
+    ansible_ssh_private_key_file: "/home/jblake1/.ssh/jblake1-azure-02.pem"
+    
+    # repositories
+    
+    orc8r_helm_repo: "https://linuxfoundation.jfrog.io/artifactory/magma-helm-prod"
+    # versions
+    rke_version: "v1.4.3"
+    kubectl_version: "v1.26.2"
+    helm_version: "v3.11.2"
+    docker_image_version: "20.10.21-0ubuntu1~20.04.2"
+    docker_compose_version: "v2.17.2"
+    k9s_version: "v0.31.7"
+    

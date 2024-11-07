@@ -1,0 +1,16 @@
+---
+- name: Message
+  debug:
+    msg: "Monitor the execution of this task in {{ logs_local }}/agwc_compose.log"
+
+
+        
+- name: Install docker compose version of AGW (agw_install_docker.sh)
+  become: yes
+  shell:
+    bash "{{ bin_local }}/agw_install_docker.sh" > "{{ logs_local }}/agwc_compose.log" 2>&1
+
+  # Up to kernel reboot
+- pause:
+    prompt: Reboot your system now and return to run the second playbook of the AGW install
+    echo: yes

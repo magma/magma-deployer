@@ -1,0 +1,50 @@
+---
+- name: Install control_proxy.yaml
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ tmp_local }}/control_proxy.yml"
+    dest: /var/opt/magma/configs/control_proxy.yml
+    mode: '0644'
+
+- name: Start AGW (docker compose)
+  become: yes
+  args:
+    chdir: /var/opt/magma/docker/
+  command: 
+    docker-compose --compatibility up -d --force-recreate
+  register: result
+- debug: 
+    var: result.stderr_lines
+
+
+- name: Get gateway information
+  become: yes
+  command: 
+    docker exec magmad show_gateway_info.py
+  register: result
+- debug: 
+    var: result.stdout_lines
+
+- pause:
+    prompt: Register the AGW in the Orc8r and then hit return to proceed
+    echo: yes
+  
+- name: Restart AGW (docker compose)
+  become: yes
+  args:
+    chdir: /var/opt/magma/docker/
+  command: 
+    docker-compose --compatibility up -d --force-recreate
+  register: result
+- debug: 
+    var: result
+
+#- name: Shutdown AGW (docker compose)
+#  become: yes
+#  args:
+#    chdir: /var/opt/magma/docker/
+#  command:		
+#    docker-compose --compatibility down
+#  register: result
+#- debug: 
+#    var: result

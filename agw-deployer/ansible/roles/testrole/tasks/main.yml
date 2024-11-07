@@ -1,0 +1,7 @@
+---
+- name: Create a Magma Namespace
+  kubernetes.core.k8s:
+    name: "{{ magma_namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present

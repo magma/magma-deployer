@@ -1,0 +1,21 @@
+---
+- name: Set darwin as Operating System
+  when: ansible_distribution == "MacOSX"
+  set_fact:
+    operating_system: "darwin"
+
+- name: Set linux as Operating System
+  when: ansible_distribution != "MacOSX"
+  set_fact:
+    operating_system: "linux"
+
+- name: Set alternate architecture name default
+  set_fact:
+    altarch: arch
+
+- name: Set alternate architecture name for x86
+  when: arch == "x86_64"
+  set_fact:
+    altarch: "amd64"
+
+- import_tasks: install-k9s.yml

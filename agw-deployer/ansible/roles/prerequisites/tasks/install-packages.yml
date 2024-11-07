@@ -1,0 +1,31 @@
+---
+- name: Install pip package
+  when: ansible_distribution != "MacOSX"
+  become: yes
+  apt:
+    update_cache: yes
+    name: python3-pip
+
+- name: Install kubernetes and crypto python packages
+  become: yes
+  pip:
+    name:
+      - kubernetes
+      - cryptography
+      - pyopenssl
+    extra_args: --ignore-installed
+
+- name: Install other pip packages   
+  become: yes
+  pip:
+    name:
+      - tqdm
+      - jinja2
+      - python-dotenv
+      - numpy
+      - pandas
+      
+
+
+
+

@@ -1,0 +1,17 @@
+---
+- name: Install Magma Orchestrator
+  hosts: all
+  roles:
+    - role: prerequisites
+    - role: docker
+    - role: kubernetes
+    - role: openebs
+    - role: metallb
+    - role: postgresql
+    - role: secrets
+    - role: orc8r
+    - role: prometheus_cache_cleanup
+    - role: haproxy
+    - role: elasticsearch
+    - role: fluentd
+    - role: dns

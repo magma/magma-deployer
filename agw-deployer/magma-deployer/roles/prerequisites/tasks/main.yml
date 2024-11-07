@@ -1,0 +1,5 @@
+---
+- import_tasks: set-operating-system.yml
+- import_tasks: install-binaries.yml
+- import_tasks: install-packages.yml
+- import_tasks: add-helm-repo.yml

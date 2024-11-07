@@ -1,0 +1,11 @@
+---
+- name: Starting
+  ansible.builtin.debug:
+    msg: "Task may take time to complete; You can follow the log at {{ logs_local }}/agwc_compose.log"
+ 
+- import_tasks: set-agwc-parameters.yml
+- import_tasks: deploy-agwc-compose-part1.yml
+
+- name: Finished
+  ansible.builtin.debug:
+    msg: "Completed Part 1 of AGW docker compose deployment; time to reboot"

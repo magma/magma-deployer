@@ -1,0 +1,40 @@
+---
+- name: Add Stable Helm repository
+  kubernetes.core.helm_repository:
+    name: stable
+    url: https://charts.helm.sh/stable
+
+- name: Add Bitnami Helm repository
+  kubernetes.core.helm_repository:
+    name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+- name: Add Elastic Search Helm repository
+  kubernetes.core.helm_repository:
+    name: elastic
+    url: https://helm.elastic.co
+
+- name: Add OpenEBS Helm repository
+  kubernetes.core.helm_repository:
+    name: openebs
+    url: https://openebs.github.io/charts
+
+- name: Add MetalLB Helm repository
+  kubernetes.core.helm_repository:
+    name: metallb
+    url: https://metallb.github.io/metallb
+
+- name: Add HAProxy Helm repository
+  kubernetes.core.helm_repository:
+    name: haproxytech
+    url: https://haproxytech.github.io/helm-charts
+
+- name: Remove old Magma Helm repository
+  kubernetes.core.helm_repository:
+    name: orc8r
+    state: absent
+
+- name: Add Magma Orchestrator Helm repository
+  kubernetes.core.helm_repository:
+    name: orc8r
+    url: "{{ orc8r_helm_repo }}"

@@ -1,0 +1,4 @@
+---
+orc8r_domain: "magma.local"
+haproxy_chart_version: "1.18.0"
+magma_namespace: "orc8r"

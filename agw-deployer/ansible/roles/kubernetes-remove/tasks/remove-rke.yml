@@ -1,0 +1,29 @@
+---
+- name: Stop Rancher Kubernetes Engine
+  command: rke remove --force --config {{ ansible_env.HOME }}/{{ magma_directory }}/rke/cluster.yml
+
+- name: Stop and Remove all k8s pods
+  shell: for d in $(docker ps|grep 'k8s_'|awk '{print $1}'); do docker stop $d && docker rm $d; done
+  
+- name: Remove rke directory
+  file:
+    path: "{{ ansible_env.HOME }}/{{ magma_directory }}/rke"
+    state: absent
+
+- name: Remove kubernetes config directory
+  file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: absent
+
+- name: Remove rke binary for {{ ansible_distribution }}
+  become: yes
+  file:
+    path: /usr/local/bin/rke
+    state: absent
+    
+
+- name: Remove kubectl binary for {{ ansible_distribution }}
+  become: yes
+  file:
+    path: /usr/local/bin/kubectl
+    state: absent

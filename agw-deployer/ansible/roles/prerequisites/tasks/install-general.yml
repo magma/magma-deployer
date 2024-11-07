@@ -1,0 +1,41 @@
+---
+
+- name: Install and configure apt packages
+  debug:
+    msg: "Install and configure apt packages"
+
+#- name: Install chromium browser
+#  become: yes
+#  apt:
+#    update_cache: yes
+#    name: chromium-browser
+  
+- name: Install wireshark and tshark
+  become: yes
+  apt:
+    name: 
+    - wireshark 
+    - wireshark-qt
+    - tshark
+    update_cache: true
+
+# Now in tcap_permissions.sh   
+#- name: Set wireshark dpkg setuid true
+#  become: yes
+#  shell: "echo wireshark-common/install-setuid wireshark-common/install-setuid select true|sudo debconf-set-selections"
+
+#- name: Run wireshark dpkg-reconfigure
+#  become: yes
+#  command: "dpkg-reconfigure -f noninteractive wireshark-common"
+
+- name: Make tcap and wireshark executable by ansible_user
+  become: yes
+  shell:
+    bash "{{ bin_local }}/tcap_permissions.sh" "{{ ansible_user }}"
+
+- name: Make dumpcap executable by everyone
+  become: yes
+  ansible.builtin.file:	
+     path: "/usr/bin/dumpcap"
+     mode: "o+x"
+

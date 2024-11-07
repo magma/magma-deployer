@@ -1,0 +1,7 @@
+---
+- name: Install Kubernetes
+  hosts: all
+  roles:
+    # - role: prerequisites
+    # - role: docker
+    - role: kubernetes
