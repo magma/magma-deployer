@@ -1,3 +1,0 @@
----
-- import_tasks: setup-ssh-key.yml
-- import_tasks: install-rke.yml

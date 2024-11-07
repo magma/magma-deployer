@@ -1,3 +1,0 @@
----
-magma_namespace: "orc8r"
-prometheus_service_account_name: "prometheus-cache-cleanup-sa"

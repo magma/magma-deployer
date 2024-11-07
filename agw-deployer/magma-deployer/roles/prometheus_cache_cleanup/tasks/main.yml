@@ -1,5 +1,0 @@
----
-- import_tasks: service-account.yml
-- import_tasks: role.yml
-- import_tasks: role-binding.yml
-- import_tasks: cronjob.yml

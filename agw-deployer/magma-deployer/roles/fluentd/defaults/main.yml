@@ -1,4 +1,0 @@
----
-magma_namespace: "orc8r"
-fluentd_chart_version: "2.5.3"
-magma_service_type: "ClusterIP"

@@ -1,53 +1,29 @@
-# A Magma Deployment Recipe
+# An AGW Deployment Recipe
 
-While the JIT Cloudlet Recipe deploys the full JIT Cloudlet solution, this recipe deploys a standalone Magma AGW and Orc8r.
+This recipe deploys a standalone Magma AGW. It assumes that the orc8r-deployer or equivalent has already been run and the orc8r is accessible from the AGW machine.
 
-DISCLAIMER: As with many deployment recipes, successful execution of the recipe is dependent on adjusting it to the specifics of a given environment. There is no guarantee this recipe can work "out of the box" in an arbitrary environment. Familiarity with Linux, Docker, Magma, IP Networking, and Ansible are likely to be needed to assure successful completion. As compared with the [JITC_recipe](../JITC_recipe), this recipe does not:
-
-- Deploy the AGW in Kubernetes. It uses docker-compose to deploy the AGW containers.
-- Include connecting a gNB or UE to the network. There are too many gNBs and UEs to include them all. 
+DISCLAIMER: As with many deployment recipes, successful execution of the recipe is dependent on adjusting it to the specifics of a given environment. There is no guarantee this recipe can work "out of the box" in an arbitrary environment. Familiarity with Linux, Docker, Magma, IP Networking, and Ansible are likely to be needed to assure successful completion.
 
 The recipe consists of the following primary steps:
 
 1. Bootstrapping the initial environment
-2. Deploy the Orchestrator
-3. Deploy the Access Gateway
-4. Connect the AGW to the Orc8r
-5. Validate the base platform
+2. Deploy the Access Gateway
+3. Connect the AGW to the Orc8r
 
-## Preparing your environment
-
-You will need two physical systems (the **Magma Orchestrator (Orc8r)** system and the **Magma Access Gateway (AGW)** system both running Ubuntu 20.04. The AGW requires two physical ethernet network interface cards.
-
-## Magma Deployment Paradigm
-This recipe assumes a bare metal install of the Orc8r and AGW. The Orc8r deployment will deploy a kubernetes (k8s) cluster on the bare metal Or8r and the Orc8r services in the cluster. The AGW deployment uses docker and docker-compose deployment on the baremetal AGW system.
-
-This recipe deploys a 5G network using Magma v1.9.
-
-Clone this repository to both the Orc8r system and the AGW System. Set the environment variable `RECIPE_HOME` to the full pathname of the recipe folder (e.g,. `export RECIPE_HOME=/home/ubuntu/<repository>/recipe`).
-
-## Deploy the Orc8r (TBD)
-The Magma Orchestrator (Orc8r) --  must be deployed before the AGW can be fully deployed. Deployment of the AGW requires access to the Orc8r's rootCA.pem and the AGW's control proxy must be configured with the Orc8r domain name when the AGW is deployed. Note a single orc8r can server multiple AGW across 4G and 5G networks.
 
 ### Prerequisites
 Ubuntu 20.04 system with >100GB disk.
 
-### Deploying the Orc8r
-This is the most straightforward guide for deploying the 1.8 Orc8r. It works with Magma 1.9 AGW and will presumably be upgraded for 1.9 eventually: [Magma-Galaxy Ansible Deployment](./magma-galaxy)
+## Preparing your environment
 
-A more DIY guide is here: [Install Orchestrator with Ansible](https://github.com/magma/magma/tree/master/orc8r/cloud/deploy/bare-metal-ansible)
+You will need a physical system running Ubuntu 20.04 to deploy the **Magma Access Gateway (AGW)**.  The AGW requires two physical ethernet network interface cards. It is possible to run this same recipe in a virtual machine and this method has been tested in KVM/QEMU virtual machines. This recipe does not cover preparing a virtual machine.) This recipe assumes a bare metal install of the AGW. The AGW deployment uses docker and docker-compose deployment on the baremetal AGW system.
 
-Follow the directions in [Magma-Galaxy Ansible Deployment](https://github.com/jblakley/magma-galaxy)
+This recipe deploys a 5G network using Magma v1.9.
 
-When finished, collect your certificate from `/home/magma/magma-galaxy/secrets/rootCA.pem`. You need this to connect AGWs.
-
-To connect to the NMS console, you will also need  `/home/magma/magma-galaxy/secrets/admin_operator.pfx`. The password for the certificate is 'password'.
-
-### Validating the setup
-Connect to NMS as described in the above guides. If you are unable to connect to NMS, then check that the orc8r kubernetes pods are running cleanly.
+On the AGW System, set the environment variable `RECIPE_HOME` to the full pathname of the recipe folder (e.g,. `export RECIPE_HOME=/home/ubuntu/<repository>/magma-deployer/agw-deployer`).
 
 ## Deploy the AGW
-Deployment of the cloudlet involves:
+Deployment of the AGW involves:
 
 1. Configuring deployment specific environment variables and installing prerequisites (`.env`, `bootstrap.sh`, reboot)
 2. Setting up the AGW network configuration  (`agwc-networking` playbook)

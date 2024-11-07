@@ -1,4 +1,0 @@
----
-- name: Set MetallLB IP of Host IP
-  set_fact:
-    metallb_ip: "{{ ansible_host }}"
