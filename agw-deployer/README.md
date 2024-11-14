@@ -167,27 +167,30 @@ $ docker ps
 Should show something like this:
 ```
 CONTAINER ID   IMAGE                                              COMMAND                   CREATED       STATUS                    PORTS     NAMES
-e79702b02385   jblake1/agw_gateway_c:v1.9-asn-file-replace        "sh -c 'mkdir -p /va??"    3 hours ago   Up 3 hours (healthy)                sessiond
-b6704d997323   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                policydb
-f52dbfdd8ded   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                directoryd
-4d2e50b32d30   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                state
-56c728b646e5   jblake1/agw_gateway_c:v1.9-asn-file-replace        "sh -c '/usr/local/b??"    3 hours ago   Up 3 hours (healthy)                oai_mme
-139d6db6b413   jblake1/agw_gateway_python:v1.9-asn-file-replace   "bash -c '/usr/bin/o??"    3 hours ago   Up 3 hours (healthy)                pipelined
-3b4525dbcb75   jblake1/agw_gateway_c:v1.9-asn-file-replace        "/usr/local/bin/sctpd"    3 hours ago   Up 3 hours                          sctpd
-fdd3bed312fc   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                enodebd
-799a252f0930   jblake1/agw_gateway_c:v1.9-asn-file-replace        "/usr/local/bin/conn??"    3 hours ago   Up 27 minutes (healthy)             connectiond
-40301d44eeb2   jblake1/agw_gateway_python:v1.9-asn-file-replace   "sh -c 'sleep 5 && /??"    3 hours ago   Up 3 hours (healthy)                mobilityd
-f1f4e364f556   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/bin/bash -c '/usr/??"    3 hours ago   Up 3 hours (healthy)                redis
-b2aec9583fd2   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                redirectd
-01b33304ef65   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/bin/bash -c '/usr/??"    3 hours ago   Up 3 hours (healthy)                td-agent-bit
-04acdbbf16a1   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                health
-16acbcd25f63   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                monitord
-2d7d3fef9d9c   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                subscriberdb
-b713213bdee5   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                ctraced
-dac051b19998   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/bin/bash -c '\n  /u??"   3 hours ago   Up 3 hours                          magmad
-2e5a7c955ed6   jblake1/agw_gateway_python:v1.9-asn-file-replace   "sh -c '/usr/local/b??"    3 hours ago   Up 3 hours (healthy)                control_proxy
-0c00fb1cb8d1   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                eventd
-1ef9ee1cb5fc   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                smsd
+
+CONTAINER ID   IMAGE                                                                    COMMAND                   CREATED       STATUS                 PORTS     NAMES
+49fa338525dd   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_c:v1.9        "sh -c 'mkdir -p /va…"    2 hours ago   Up 2 hours (healthy)             sessiond
+20204d9636e0   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_c:v1.9        "sh -c '/usr/local/b…"    2 hours ago   Up 2 hours (healthy)             oai_mme
+0af7a08a2489   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             state
+975a3a3af345   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             policydb
+19a416e835ec   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             directoryd
+49372d59d9d8   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "bash -c '/usr/bin/o…"    2 hours ago   Up 2 hours (healthy)             pipelined
+64990c44a1da   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_c:v1.9        "/usr/local/bin/sctpd"    2 hours ago   Up 2 hours                       sctpd
+bd0e794c9a3c   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             subscriberdb
+a21bdf353a1b   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             eventd
+434910ae0121   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             redirectd
+20636cdd3a41   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "sh -c '/usr/local/b…"    2 hours ago   Up 2 hours (healthy)             control_proxy
+68143b9804e6   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/bin/bash -c '/usr/…"    2 hours ago   Up 2 hours (healthy)             redis
+854259a6b479   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/bin/bash -c '/usr/…"    2 hours ago   Up 2 hours (healthy)             td-agent-bit
+db4a62105283   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             health
+fad91576d6be   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_c:v1.9        "/usr/local/bin/conn…"    2 hours ago   Up 2 hours (healthy)             connectiond
+4a704bbe52ea   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "sh -c 'sleep 5 && /…"    2 hours ago   Up 2 hours (healthy)             mobilityd
+dc15610a0c3f   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/bin/bash -c '\n  /u…"   2 hours ago   Up 2 hours                       magmad
+cf8dd09aeac8   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             ctraced
+1aa4cde13cd2   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             enodebd
+a215379edf82   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             smsd
+f3fd137e4652   linuxfoundation.jfrog.io/magma-docker-agw-test/agw_gateway_python:v1.9   "/usr/bin/env python…"    2 hours ago   Up 2 hours (healthy)             monitord
+
 ```
 
 ## Other tools, tips, debugging suggestions
