@@ -129,7 +129,12 @@ $ sudo docker compose --compatibility up -d --force-recreate
 ```
 At this point, you can validate the connection between your AGW and Orchestrator.
 
-The magma documentation says to run: sudo docker exec magmad checkin_cli.py to verify connectivity, however, as of this writing, there is a bug in the containerized version that will give this error even when you are connected to the Orc8r:
+The magma documentation says to run: 
+```
+sudo docker exec magmad checkin_cli.py
+```
+
+to verify connectivity, however, as of this writing, there is a bug in the containerized version that will give this error even when you are connected to the Orc8r:
 ```
 1. -- Testing TCP connection to controller.orc8r.magma18.livingedgelab.org:443 -- 
 2. -- Testing Certificate -- 
