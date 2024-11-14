@@ -114,15 +114,48 @@ All AGW containers should be running and showing healthy. The playbook will prin
 ```
 $ docker exec magmad show_gateway_info.py
 ```
-Use this to provision the AGW in the Orc8r. After that provisioning, restart the AGW services.
+Use this to provision the AGW in the Orc8r. 
+On the Orc8r NMS, navigate to `Equipment->Gateways" from the left navigation bar, hit "Add New" on the upper right, and fill out the multi-step modal form. Use the secrets from above for the "Hardware UUID" and "Challenge Key" fields.
+
+For now, you won't have any eNodeB's to select in the eNodeB dropdown under the "Ran" tab. This is OK, we'll get back to this in a later step.
+
+At this point, you can validate the connection between your AGW and Orchestrator:
+
+After the provisioning, restart the AGW services.
 
 ```
 $ cd /var/opt/magma/docker
 $ sudo docker compose --compatibility up -d --force-recreate
 ```
+At this point, you can validate the connection between your AGW and Orchestrator.
 
-## Validate the base platform
-At this point, you should have a working dockerized AGW connected to the Orc8r. Here are some things you can do to test this.
+The magma documentation says to run: sudo docker exec magmad checkin_cli.py to verify connectivity, however, as of this writing, there is a bug in the containerized version that will give this error even when you are connected to the Orc8r:
+```
+1. -- Testing TCP connection to controller.orc8r.magma18.livingedgelab.org:443 -- 
+2. -- Testing Certificate -- 
+3. -- Testing SSL -- 
+4. -- Creating direct cloud checkin -- 
+
+> Error: <_MultiThreadedRendezvous of RPC that terminated with:
+        status = StatusCode.UNAVAILABLE
+        details = "failed to connect to all addresses; last error: UNAVAILABLE: Socket closed"
+        debug_error_string = "UNKNOWN:Failed to pick subchannel {created_time:"2022-10-21T19:23:22.773234625+02:00", children:[UNKNOWN:failed to connect to all addresses; last error: UNAVAILABLE: Socket closed {created_time:"2022-10-21T19:23:22.773231265+02:00", grpc_status:14}]}"
+```
+Two currently more reliable ways to validate Orc8r connection are:
+```
+$ sudo docker exec magmad cat /var/log/syslog|grep heart
+```
+
+Which should show multiple lines of:
+```
+Oct 21 13:33:43 agw-p18-2 eba229d6ac98[780]: INFO:root:[SyncRPC] Got heartBeat from cloud
+```
+
+And, from the NMS console in Orc8r, see if the AGW has checked in recently. Sometimes, this method will indicate a bad state even when all is OK, though. C.f.:
+
+![image](https://github.com/user-attachments/assets/dd11f37e-c9f7-4fd2-8334-d0a3138b6545)
+
+At this point, you should have a working dockerized AGW connected to the Orc8r. You can check the overall operation of the AGW.
 ```
 $ docker ps
 ```
@@ -151,9 +184,6 @@ dac051b19998   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/bin/bash -c 
 0c00fb1cb8d1   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                eventd
 1ef9ee1cb5fc   jblake1/agw_gateway_python:v1.9-asn-file-replace   "/usr/bin/env python??"    3 hours ago   Up 3 hours (healthy)                smsd
 ```
-
-Your AGW status should be `Good` in the Orc8r NMS console.
-![image](https://github.com/user-attachments/assets/13ea7cc8-7300-47bb-9c15-ba232da00150)
 
 ## Other tools, tips, debugging suggestions
 
