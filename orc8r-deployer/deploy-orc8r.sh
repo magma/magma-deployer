@@ -19,9 +19,10 @@ DEFAULT_NMS_ORGANIZATION_NAME="magma-test"
 DEFAULT_NMS_EMAIL_ID_AND_PASSWORD="admin"
 DEFAULT_DEPLOYER_PATH="$1"
 ORC8R_IP=$(hostname -I | awk '{print $1}')
-GITHUB_USERNAME="magma"
-MAGMA_DOCKER_REGISTRY="magmacore"
-MAGMA_ORC8R_REPO="magma-deployer"
+GITHUB_USERNAME="jblakley"
+GITHUB_DEPLOYER_BRANCH="agw-orc8r"
+# MAGMA_DOCKER_REGISTRY="magmacore"
+MAGMA_DEPLOYER_REPO="magma-deployer"
 MAGMA_USER="magma"
 HOSTS_FILE="hosts.yml"
 
@@ -41,7 +42,8 @@ NMS_PASSWORD="${NMS_PASSWORD:-${DEFAULT_NMS_EMAIL_ID_AND_PASSWORD}}"
 read -p "If you've already cloned magma-deployer, enter the path here: [${DEFAULT_DEPLOYER_PATH}]: " DEPLOYER_PATH
 DEPLOYER_PATH="${DEPLOYER_PATH:-${DEFAULT_DEPLOYER_PATH}}"
 
-test -d ${DEPLOYER_PATH} && cp -pvr ${DEPLOYER_PATH} /tmp/magma-deployer/
+test -d /tmp/magma-deployer/ && rm -rf /tmp/magma-deployer/
+test -d "${DEPLOYER_PATH}" && cp -pr ${DEPLOYER_PATH} /tmp/magma-deployer/
 
 # Add repos for installing yq and ansible
 ls /etc/apt/sources.list.d|grep yq || add-apt-repository --yes ppa:rmescandon/yq
@@ -62,15 +64,20 @@ su - ${MAGMA_USER} -c bash <<_
 test -f ~/.ssh/id_rsa.pub || ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''
 test -f ~/.ssh/authorized_keys || cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys 
 
+test -d "~/magma-deployer" && rm -rf ~/magma-deployer
+
 if test -d /tmp/magma-deployer
 then
-	cp -pvr /tmp/magma-deployer ~/
+	cp -pr /tmp/magma-deployer ~/
 else
 	# Clone Magma Deployer repo
-	echo git clone https://github.com/${GITHUB_USERNAME}/${MAGMA_ORC8R_REPO} --depth 1
+	cd ~
+	git clone https://github.com/${GITHUB_USERNAME}/${MAGMA_DEPLOYER_REPO} --depth 1
 fi
 
-cd ~/${MAGMA_ORC8R_REPO}
+cd ~/${MAGMA_DEPLOYER_REPO}
+git checkout "${GITHUB_DEPLOYER_BRANCH}"
+cd orc8r-deployer
 
 # export variables for yq
 export ORC8R_IP=${ORC8R_IP}
