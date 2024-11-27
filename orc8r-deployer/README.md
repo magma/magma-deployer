@@ -49,6 +49,7 @@ You can get your `rootCA.pem` file from the following location:
 cat ~/magma-deployer/secrets/rootCA.pem
 ```
 
+### K9s for Management
 *For a handy, simple kubernetes management tool, try [k9s](https://github.com/derailed/k9s)*
 
 ```bash
@@ -60,6 +61,7 @@ sudo cp k9s /usr/local/bin
 k9s
 ```
 
+### Build your own charts
 To build your own helm repository for the orchestrator charts, create a private GitHub repo to use as your Helm chart repo. We'll refer to this as GITHUB_REPO.
 
 Define some necessary variables
@@ -74,13 +76,9 @@ export GITHUB_ACCESS_TOKEN=GITHUB_ACCESS_TOKEN
 Next we'll run the package script. This script will package and publish the necessary Helm charts to the GITHUB_REPO. The script expects a deployment type to be provided, which will determine which orc8r modules are deployed.
 
 Run the package script
+```
+${MAGMA_ROOT}/orc8r/tools/helm/package.sh -d all # or chosen deployment type
+```
 
-${MAGMA_ROOT}/orc8r/tools/helm/package.sh -d fwa # or chosen deployment type
 
-...
-
-Uploaded orc8r charts successfully.
-You can add -v option to overwrite the versions of the chart.
-
-${MAGMA_ROOT}/orc8r/tools/helm/package.sh -d all
 
