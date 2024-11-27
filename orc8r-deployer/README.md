@@ -13,8 +13,8 @@ CMU Controlled Install:
 
 ```bash
 git clone https://github.com/jblakley/magma-deployer
-cd magma-deployer
-git checkout cmu
+git checkout agw-orc8r
+cd magma-deployer/orc8r-deployer
 bash ./deploy-orc8r.sh $(pwd)
 ```
 
@@ -22,7 +22,7 @@ Sometimes, this fails the first time through when bringing up RKE. The following
 
 ```bash
 # Reboot and ...
-cd ~/magma-deployer/RKE
+cd ~/magma-deployer/orc8r-deployer/rke
 rke remove
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
@@ -59,4 +59,5 @@ tar xvzf k9s_Linux_${ARCH}.tar.gz
 sudo cp k9s /usr/local/bin
 k9s
 ```
-```
+
+
