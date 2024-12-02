@@ -49,6 +49,7 @@ You can get your `rootCA.pem` file from the following location:
 cat ~/magma-deployer/secrets/rootCA.pem
 ```
 
+### K9s for Management
 *For a handy, simple kubernetes management tool, try [k9s](https://github.com/derailed/k9s)*
 
 ```bash
@@ -59,7 +60,4 @@ tar xvzf k9s_Linux_${ARCH}.tar.gz
 sudo cp k9s /usr/local/bin
 k9s
 ```
-
-To build your own helm repository for the orchestrator charts, create a private GitHub repo to use as your Helm chart repo. We'll refer to this as GITHUB_REPO.
-
 
