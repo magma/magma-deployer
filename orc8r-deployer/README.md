@@ -24,7 +24,7 @@ git clone https://github.com/jblakley/magma-deployer # To change after upstreame
 cd magma-deployer
 git checkout agw-orc8r # To change after upstreamed
 cd orc8r-deployer
-bash ./deploy-orc8r.sh $(pwd)
+sudo bash ./deploy-orc8r.sh $(pwd)
 ```
 
 The above steps are equivalent to running the quick deployer but set up an environment where you can make modifications and redeploy.
