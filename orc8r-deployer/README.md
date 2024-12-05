@@ -1,7 +1,7 @@
 # Orc8r-deployer
 The Orc8r Deployer has two primary approaches:
 
-1. A quick deployer that uses the current magma master branch and standard orc8r artifacts.
+1. A quick deployer that uses the current magma master branch and standard orc8r artifacts. Use this if you want a standard off-the-shelf Orc8r.
 2. A customized deployer that better allows for deployment-specific modifications. While any modifications are possible in this approach, the primary are likely to be things like use of different helm chart and container images.
 
 ## Quick Deployer
@@ -14,22 +14,27 @@ sudo bash -c "$(curl -sL https://github.com/magma/magma-deployer/raw/main/deploy
 
 ## Customized Deployer
 
-Many users will want to have the simplicity of the quick deployer but will need to make some tweaks to the deployment in order to fit their environment and needs.
+Many users will want to have the simplicity of the quick deployer but will need to make some tweaks to the deployment in order to fit their environment and needs. The customized deployer approach let's you do that.
 
 To start the process, create a deployer working environment. Do this from a login other than the `magma` login (e.g., `ubuntu`). 
 
 ```bash
+# As ubuntu user
 cd ~
 git clone https://github.com/jblakley/magma-deployer # To change after upstreamed
 cd magma-deployer
 git checkout agw-orc8r # To change after upstreamed
 cd orc8r-deployer
-sudo bash ./deploy-orc8r.sh $(pwd)
+sudo bash ./deploy-orc8r-bootstrap.sh $(pwd)
+sudo su - magma
+# As magma user
+cd ~/magma-deployer/orc8r-deployer
+ansible-playbook deploy-orc8r.sh
 ```
 
 The above steps are equivalent to running the quick deployer but set up an environment where you can make modifications and redeploy.
 
-If `deploy-orc8r.sh` fails the first time through when bringing up RKE or if you need to redeploy after making changes to magma-deployer or magma later, the following seems to recover the system.  You may need to run the following.
+or if you need to redeploy after making changes to magma-deployer or magma later, the following seems to recover the system.  You may need to run the following. This script is 
 
 ```bash
 # Reboot and ...
@@ -53,15 +58,11 @@ sudo su - magma
 Once all pods are ready, setup NMS login:
 
 ```bash
-cd ~/magma-deployer
+cd ~/magma-deployer/orc8r-deployer
 ansible-playbook config-orc8r.yml
 ```
 
-You can get your `rootCA.pem` file from the following location:
-
-```bash
-cat ~/magma-deployer/secrets/rootCA.pem
-```
+You can get your `rootCA.pem` and `admin_operator.pfx` file from `~/magma-deployer/secrets`
 
 ## Making changes to magma/orc8r
 If you expect to make changes to the magma code itself, now is good time to:
