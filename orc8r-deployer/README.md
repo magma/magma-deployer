@@ -27,6 +27,10 @@ git checkout agw-orc8r # To change after upstreamed
 cd orc8r-deployer
 sudo bash ./deploy-orc8r-bootstrap.sh $(cd ..;pwd)
 sudo su - magma
+```
+Before running the next step, check the `hosts.yml` file to make sure that it selects the right interface's IP address. The playbook selects the first interface with an assigned IP address. This may not be correct for your deployment.
+
+```
 # As magma user
 cd ~/magma-deployer/orc8r-deployer
 ansible-playbook deploy-orc8r.yml
