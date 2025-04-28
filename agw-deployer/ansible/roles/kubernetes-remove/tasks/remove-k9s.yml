@@ -1,0 +1,7 @@
+---
+- name: Remove k9s
+  become: yes
+  file:
+    path: /usr/local/bin/k9s
+    state: absent
+

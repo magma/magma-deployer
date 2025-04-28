@@ -1,0 +1,29 @@
+---
+- name: Starting AGWC Network Tasks
+  ansible.builtin.debug:
+    msg: "Starting AGWC Network Tasks"
+    
+- name: Configure eth0 netplan
+  become: yes
+  template:
+     src: "{{files_local}}/75-eth0-itf.yaml.j2"
+     dest: "/etc/netplan/75-eth0-itf.yaml"
+     
+- name: Configure eth1 netplan
+  become: yes
+  template:
+     src: "{{files_local}}/80-eth1-itf.yaml.j2"
+     dest: "/etc/netplan/80-eth1-itf.yaml"
+
+- name: Run netplan to configure network (could cause connectivity issues)
+  become: yes
+  command: netplan apply
+  
+- name: Enable masquerading on eth0
+  become: yes
+  command: iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+  
+- name: Finished
+  ansible.builtin.debug:
+    msg: "AGWC Networking Setup Complete"

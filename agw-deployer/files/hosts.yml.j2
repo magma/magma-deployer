@@ -1,0 +1,48 @@
+---
+all:
+  # Update your VM or bare-metal IP address
+  hosts: {{ CLOUDLET_IP }}
+  # hosts: 127.0.0.1
+  vars:
+    ansible_user: "{{ USER }}"
+    arch: {{ ARCH }}
+    domainName: {{ MAGMA_DN }}
+    magma_namespace: magma
+    magma_directory: "magma"
+    magma_user: {{ MAGMA_USER }}
+    magma_github: {{ MAGMA_GITHUB }}
+    magma_version: {{ MAGMA_VERSION }}
+    cloudlet_ip: {{ CLOUDLET_IP }}
+    orc8r_ip: {{ ORC8R_IP }}
+    s1_ip: {{ S1_IP }}
+    nodeb_ip: {{ NODEB_IP }}
+    eth0_mac: {{ ETH0_MAC }}
+    eth1_mac: {{ ETH1_MAC }}
+    nameserver_ip: "{{ NAMESERVER_IP }}"
+    ipgateway_ip: {{ IPGATEWAY_IP }}
+    # directory path setup
+    recipe_home: {{ RECIPE_HOME }}
+    secrets_local: "{{ ROOT_CA_PATH }}"
+    helm_local: "{{ RECIPE_HOME }}/helm/charts"
+    files_local: "{{ RECIPE_HOME }}/files" 	
+    tmp_local: "{{ RECIPE_HOME }}/tmp"
+    bin_local: "{{ RECIPE_HOME }}/bin"
+    logs_local: "{{ RECIPE_HOME }}/logs"
+   
+    # ssh key for all hosts
+    ansible_ssh_private_key_file: "{{ PRIVATE_KEY }}"
+    
+    # repositories
+    
+    orc8r_helm_repo: "{{ ORC8R_HELM_REPO }}"
+    
+    
+    # versions
+    rke_version: "{{ RKE_VERSION }}"
+    kubectl_version: "{{ KUBECTL_VERSION }}"
+    helm_version: "{{ HELM_VERSION }}"
+    docker_image_version: "{{ DOCKER_IMAGE_VERSION }}"
+    k9s_version: "{{ K9S_VERSION }}"
+    docker_compose_version: "{{ DOCKER_COMPOSE_VERSION }}"
+    
+

@@ -1,0 +1,92 @@
+---
+- name: Create a directory for certs
+  become: yes
+  ansible.builtin.file:
+    path: /var/opt/magma/certs
+    state: directory
+    mode: '0755'
+    
+- name: Create a directory for configs
+  become: yes
+  ansible.builtin.file:
+    path: /var/opt/magma/configs
+    state: directory
+    mode: '0755'
+    
+- name: Copy rootCA.pem
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ secrets_local}}/rootCA.pem"
+    dest: /var/opt/magma/certs
+    mode: '0644'
+    
+- name: Create a directory for tmp
+  ansible.builtin.file:
+    path: "{{ tmp_local }}"
+    state: directory
+    mode: '0755'
+
+- name: Configure control_proxy
+  become: yes
+  template:
+     src: "{{files_local}}/control_proxy.yml.j2"
+     dest: "{{ tmp_local }}/control_proxy.yml"
+     mode: '0644'
+
+- name: Copy control_proxy
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ tmp_local }}/control_proxy.yml"
+    dest: /var/opt/magma/configs
+    mode: '0644'
+    
+- name: Copy 20auto-upgrades
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ files_local }}/20auto-upgrades"
+    dest: /etc/apt/apt.conf.d
+    mode: '0644'
+    
+- name: Create orc8r /etc/hosts addiiton
+  become: yes
+  template:
+     src: "{{files_local}}/etchosts.j2"
+     dest: "{{ tmp_local }}/etchosts"
+
+- name: Add orc8r to AGW /etc/hosts
+  become: yes
+  blockinfile:
+    path: /etc/hosts
+    block: "{{ lookup('file', '{{ tmp_local }}/etchosts') }}"
+
+   
+- name: Create a directory for logs
+  ansible.builtin.file:
+    path: "{{ logs_local }}"
+    state: directory
+    mode: '0755'
+    
+- name: Set alternate magma_version name
+  when: magma_version == "1.8.0"
+  set_fact:
+    altmagma_version: "v1.8"
+
+- name: Make debconf not interactive
+  become: yes
+  shell:
+    bash "debconf debconf/frontend select Noninteractive" | "debconf-set-selections"
+
+# setup resolv.conf
+- name: Create a symbolic link (/var/run/systemd/resolve/resolv.conf /etc/resolv.conf)
+  become: yes
+  ansible.builtin.file:
+    src: /var/run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+
+- name: set nameservers to {{ nameserver_ip | replace(',',' ')}} in /etc/resolv.conf
+  become: yes
+  lineinfile:
+    path: /etc/resolv.conf
+    regexp: '#DNS='
+    line: "DNS={{ nameserver_ip | replace(',',' ')}}"

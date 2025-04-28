@@ -1,0 +1,15 @@
+network:
+    ethernets:
+        eth0:
+            dhcp4: false
+            dhcp6: false
+            addresses: [{{ cloudlet_ip }}/24]
+            routes:
+            - to: default
+              via: {{ipgateway_ip}}
+            match:
+                macaddress: {{eth0_mac}}
+            nameservers:
+                addresses: [{{nameserver_ip}}]
+            set-name: eth0
+    version: 2

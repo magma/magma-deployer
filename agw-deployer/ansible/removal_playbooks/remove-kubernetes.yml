@@ -1,0 +1,5 @@
+---
+- name: Remove Rancher Kubernetes Engine
+  hosts: all
+  roles:
+    - role: kubernetes-remove

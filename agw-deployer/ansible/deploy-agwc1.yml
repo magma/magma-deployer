@@ -1,0 +1,6 @@
+---
+# Must run common-system first
+- name: Install Magma AGW
+  hosts: all
+  roles:
+    - role: agwc-compose-part1

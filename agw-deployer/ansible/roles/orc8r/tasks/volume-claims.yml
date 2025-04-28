@@ -1,0 +1,22 @@
+---
+- name: Create Volume Claims for Orchestrator
+  kubernetes.core.k8s:
+    namespace: "{{ magma_namespace }}"
+    definition:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: "{{ item.name }}"
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: "{{ item.storage }}"
+  with_items:
+    - { name: "promcfg", storage: "1Gi" }
+    - { name: "promdata", storage: "20Gi" }
+    - { name: "grafanadata", storage: "2Gi" }
+    - { name: "grafanadashboards", storage: "2Gi" }
+    - { name: "grafanaproviders", storage: "100M" }
+    - { name: "grafanadatasources", storage: "100M" }

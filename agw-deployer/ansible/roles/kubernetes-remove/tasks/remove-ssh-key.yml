@@ -1,0 +1,6 @@
+---
+- name: Remove SSH directory
+  file:
+    path: "{{ ansible_env.HOME }}/{{ magma_directory }}/.ssh"
+    state: absent
+

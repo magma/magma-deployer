@@ -1,0 +1,5 @@
+---
+- name: Remove Docker (but not daemon.json or stored images)
+  hosts: all
+  roles:
+    - role: docker-remove

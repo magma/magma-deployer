@@ -1,0 +1,10 @@
+---
+- name: Starting
+  ansible.builtin.debug:
+    msg: "Finishes the bringup (post reboot) of the docker compose version"
+
+- import_tasks: deploy-agwc-compose-part2.yml
+
+- name: Finished
+  ansible.builtin.debug:
+    msg: "Docker compose AGW now working"

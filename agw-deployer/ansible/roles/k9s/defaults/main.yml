@@ -1,0 +1,3 @@
+---
+magma_directory: "magma-galaxy"
+k9s_version: "v0.31.7"

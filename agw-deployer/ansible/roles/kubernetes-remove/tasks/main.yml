@@ -1,0 +1,4 @@
+---
+- import_tasks: remove-rke.yml
+- import_tasks: remove-k9s.yml
+# - import_tasks: remove-ssh-key.yml

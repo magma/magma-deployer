@@ -1,0 +1,5 @@
+---
+- name: Install TestRole
+  hosts: all
+  roles:
+    - role: testrole

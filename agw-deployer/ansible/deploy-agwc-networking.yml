@@ -1,0 +1,6 @@
+---
+# Must run common-system first
+- name: Configure Magma AGW Networking
+  hosts: all
+  roles:
+      - role: agwc-config-networking

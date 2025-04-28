@@ -1,0 +1,14 @@
+network:
+    ethernets:
+        eth1:
+            dhcp4: false
+            dhcp6: false
+            addresses: [{{ s1_ip }}/24]
+            match:
+                macaddress: {{eth1_mac}}
+            routes:
+            - to: {{nodeb_ip}}/32
+              via: {{s1_ip}}
+            set-name: eth1
+    version: 2
+
