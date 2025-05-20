@@ -9,7 +9,7 @@ The Orc8r Deployer has two primary approaches:
 This document describes the Quick install process: https://magma.github.io/magma/docs/next/orc8r/deploy_using_ansible
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/magma/magma-deployer/raw/main/deploy-orc8r.sh)"
+sudo bash -c "$(curl -sL https://raw.githubusercontent.com/magma/magma-deployer/refs/heads/main/orc8r-deployer/deploy-orc8r.sh)"
 ```
 
 ## Customized Deployer
