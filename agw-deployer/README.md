@@ -125,7 +125,7 @@ After the provisioning, restart the AGW services.
 
 ```
 $ cd /var/opt/magma/docker
-$ sudo docker compose --compatibility up -d --force-recreate
+$ sudo docker-compose --compatibility up -d --force-recreate
 ```
 At this point, you can validate the connection between your AGW and Orchestrator.
 
