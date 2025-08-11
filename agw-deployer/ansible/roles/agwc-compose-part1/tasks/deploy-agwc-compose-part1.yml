@@ -3,12 +3,34 @@
   debug:
     msg: "Monitor the execution of this task in {{ logs_local }}/agwc_compose.log"
 
-
-        
 - name: Install docker compose version of AGW (agw_install_docker.sh)
   become: yes
   shell:
     bash "{{ bin_local }}/agw_install_docker.sh" > "{{ logs_local }}/agwc_compose.log" 2>&1
+
+- name: Make docker-compose .env writable
+  become: yes
+  ansible.builtin.file:
+    path: /var/opt/magma/docker/.env
+    mode: '0600'
+
+- name: Update docker-compose .env to right image version
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /var/opt/magma/docker/.env
+    regexp: '^IMAGE_VERSION='
+    line: "IMAGE_VERSION={{magma_version}}"
+
+- name: Restart AGW (docker compose)
+  become: yes
+  args:
+    chdir: /var/opt/magma/docker/
+  command: 
+    docker-compose --compatibility up -d --force-recreate
+  register: result
+- debug: 
+    var: result
+
 
   # Up to kernel reboot
 - pause:
